@@ -1,0 +1,24 @@
+{
+  "name": "sunburst-d3-for-daily-progress",
+  "version": "1.0.0",
+  "description": "This piece of software is a simple frontend with a sunburst D3 graph and two navigations buttons to navigate among the diferents data weeks",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuillermoBaldan/sunburst-d3-for-daily-progress.git"
+  },
+  "keywords": [
+    "sunburst",
+    "D3",
+    "coachware"
+  ],
+  "author": "Guillermo Baldán López",
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "bugs": {
+    "url": "https://github.com/GuillermoBaldan/sunburst-d3-for-daily-progress/issues"
+  },
+  "homepage": "https://github.com/GuillermoBaldan/sunburst-d3-for-daily-progress#readme"
+}
