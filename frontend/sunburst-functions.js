@@ -53,4 +53,86 @@ function generateDataForSunburst(dataByWeek) {
   return dataForSunburst;
 }
 
-export { generateDataForSunburst };
+function fatherReference(label, referenceTypes) {
+  let fatherReference;
+  referenceTypes.forEach((item) => {
+    item.children.forEach((child) => {
+      if (child.name === label) {
+        fatherReference = item.name;
+      }
+    });
+  });
+  return fatherReference;
+}
+
+function fatherReferenceColor(label, referenceTypes) {
+  let colorReference;
+  referenceTypes.forEach((item) => {
+    item.children.forEach((child) => {
+      if (child.name === label) {
+        colorReference = item.color;
+      }
+    });
+  });
+  return colorReference;
+}
+
+function activityReferenceColor(label, referenceTypes) {
+  let colorReference;
+  referenceTypes.forEach((item) => {
+    item.children.forEach((child) => {
+      if (child.name === label) {
+        colorReference = child.color;
+      }
+    });
+  });
+  return colorReference;
+}
+
+function deleteSunburst() {
+  while (fatherElement.firstChild) {
+    fatherElement.removeChild(fatherElement.firstChild);
+  }
+}
+
+function incrementWeek() {
+  if (weekValue === dailyTimePerProjectPerWeek.length - 1) {
+    console.log("This is the current week");
+  } else {
+    weekValue += 1;
+    drawData();
+  }
+}
+
+function decrementWeek() {
+  if (weekValue === 0) {
+    console.log("This is the oldest week of the time series");
+  } else {
+    weekValue -= 1;
+    drawData();
+  }
+}
+
+function drawData() {
+  //Delete previous diagram
+  //1) Seleccionamos el elemento padre
+  //2) Borramos todos sus hijos
+  //debugLabel("drawData function")
+  deleteSunburst();
+  //Draw new Sunburst
+  drawSunburst();
+  //At first time weekValue points to the current week
+  //Functions for Stackbars
+  //chart.data = dailyTimePerProjectPerWeek[weekValue];
+  //chart.update();
+  drawLegend();
+}
+
+export { generateDataForSunburst,
+  fatherReference,
+  fatherReferenceColor,
+  activityReferenceColor,
+deleteSunburst,
+incrementWeek,
+decrementWeek,
+drawData };
