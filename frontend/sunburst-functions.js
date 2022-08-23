@@ -1,3 +1,5 @@
+//Sunburst drawing functions
+
 function generateDataForSunburst(dataByWeek) {
   let dataForSunburst = [];
   //Creamos los datos para tener un Sunburst por semana
@@ -128,11 +130,67 @@ function drawData() {
   drawLegend();
 }
 
-export { generateDataForSunburst,
-  fatherReference,
-  fatherReferenceColor,
-  activityReferenceColor,
-deleteSunburst,
-incrementWeek,
-decrementWeek,
-drawData };
+// find ancestors
+function getRootmostAncestorByWhileLoop(node) {
+  while (node.depth > 1) node = node.parent;
+  return node;
+}
+
+// zoom on click
+
+
+function click(d) {
+  console.log("function click");
+  console.log("d.y0 = " + d.y0);
+
+  svg
+    .transition()
+    .duration(750) // duration of transition
+    .tween("scale", function () {
+      var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
+        yd = d3.interpolate(y.domain(), [d.y0, 1]),
+        yr = d3.interpolate(y.range(), [d.y0 ? 80 : 0, radius]);
+      return function (t) {
+        x.domain(xd(t));
+        y.domain(yd(t)).range(yr(t));
+      };
+    })
+    .selectAll("path")
+    .attrTween("d", function (d) {
+      return function () {
+        return arc(d);
+      };
+    });
+  d3.select(".total").text(d.value);
+}
+
+function redraw(d) {
+  console.log("function redraw");
+
+  svg
+    .transition()
+    .duration(750)
+    .tween("scale", function () {
+      var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
+        yd = d3.interpolate(y.domain(), [d.y0, 1]),
+        yr = d3.interpolate(y.range(), [d.y0 ? radius / 2 : 0, radius]);
+      return function (t) {
+        x.domain(xd(t));
+        y.domain(yd(t)).range(yr(t));
+      };
+    })
+    .selectAll("path")
+    .attrTween("d", function (d) {
+      return function () {
+        return arc(d);
+      };
+    });
+
+  d3.select(".total").text(d.value);
+}
+
+
+
+export { generateDataForSunburst,fatherReference,fatherReferenceColor,
+  activityReferenceColor,deleteSunburst,incrementWeek,decrementWeek,
+drawData, getRootmostAncestorByWhileLoop, click, redraw };
